@@ -1,4 +1,3 @@
-import math
 import time
 from turtle import Screen
 from food import Food
