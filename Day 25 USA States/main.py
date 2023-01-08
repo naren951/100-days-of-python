@@ -21,9 +21,11 @@ while len(correct_guesses)!=total:
     answer = screen.textinput(title=f"{len(correct_guesses)}/{total} States Correct",prompt="What's another state's name??")
     answer = answer.title()
     if answer == 'Exit':
-        for state in states['state'].to_list():
-            if state not in correct_guesses:
-                not_guessed.append(state)
+        # for state in states['state'].to_list():
+        #     if state not in correct_guesses:
+        #         not_guessed.append(state)
+        
+        not_guessed = [state for state in states['state'].to_list() if state not in correct_guesses]
         not_guessed = pd.DataFrame(not_guessed)
         not_guessed.to_csv("not_guessed.csv")
         break
