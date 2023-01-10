@@ -1,17 +1,27 @@
 from tkinter import *
 from tkinter import messagebox
+from password import generate_password
+import pyperclip
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+
+def get_password():
+    key = generate_password()
+    pyperclip.copy(key)
+    password.insert(string=key, index=0)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def add():
     op = f"{website.get()} | {username.get()} | {password.get()}\n"
-
+    if website.get() == "" or username.get() == "" or password.get() == "":
+        messagebox.showwarning(title="Oops", message= "Don't leave any fields empty!")
+        return
     is_ok = messagebox.askokcancel(title=website.get(), message=f"These are the details entered: \nEmail: {username.get()}\nPassword: {password.get()}")
-
-    with open("data.txt","a") as file:
-        file.write(op)
-    website.delete(0,END)
-    password.delete(0,END)
+    
+    if is_ok:
+        with open("data.txt","a") as file:
+            file.write(op)
+        website.delete(0,END)
+        password.delete(0,END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -39,8 +49,8 @@ username.grid(row=2, column=1, columnspan=2)
 password = Entry(width=20)
 password.grid(row=3, column=1)
 
-generate_password = Button(text="Generate Password", width=10)
-generate_password.grid(row=3, column=2)
+generate_password_btn = Button(text="Generate Password", width=10, command=get_password)
+generate_password_btn.grid(row=3, column=2)
 
 add_button = Button(text="Add", command=add)
 add_button.config(width=32)
